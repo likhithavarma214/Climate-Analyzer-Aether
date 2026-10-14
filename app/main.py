@@ -1,4 +1,5 @@
 """AETHER same-origin API, weather cache and persisted Python analyses."""
+from fastapi.middleware.cors import CORSMiddleware
 import asyncio
 import csv
 import hashlib
@@ -68,6 +69,15 @@ async def lifespan(app):
 
 
 app = FastAPI(title='AETHER Climate API', version='2.0.0', lifespan=lifespan)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://climate-analyzer-aether.vercel.app",
+        "https://climate-analyzer-aether-git-main-likhitha-v-projects.vercel.app",
+    ],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
+)
 
 
 class Region(BaseModel):
