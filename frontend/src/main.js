@@ -1,3 +1,8 @@
+const API_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL || ""
+).replace(/\/$/, "");
+
+const apiUrl = (path) => `${API_BASE_URL}${path}`;
 import React from "react";
 import * as ReactDOM from "react-dom/client";
 import htm from "htm";
@@ -1364,7 +1369,7 @@ function App() {
     fileInput = useRef();
   useEffect(() => {
     let active = true;
-    fetch("/api/health")
+    fetch(apiUrl("/api/health"))
       .then((r) => {
         if (!r.ok) throw Error();
         return r.json();
@@ -1554,7 +1559,7 @@ function App() {
           fetchedAt: new Date().toISOString(),
         };
       } else {
-        const response = await fetch("/api/analyses", {
+        const response = await fetch(apiUrl("/api/analyses"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...c, mode: "backend" }),
@@ -1568,8 +1573,8 @@ function App() {
               : `Analysis failed (HTTP ${response.status}).`,
           );
         const read = await fetch(
-          "/api/analyses/" + encodeURIComponent(payload.id),
-          { signal: controller.signal },
+        apiUrl("/api/analyses/" + encodeURIComponent(payload.id)),
+        { signal: controller.signal },
         );
         if (!read.ok) throw Error("Database readback failed. Please retry.");
         next = await read.json();
@@ -1700,8 +1705,12 @@ function App() {
     if (result.backendId) {
       try {
         const r = await fetch(
-          "/api/analyses/" + result.backendId + "/export/pdf",
-        );
+  apiUrl(
+    "/api/analyses/" +
+    encodeURIComponent(result.backendId) +
+    "/export/pdf"
+  ),
+);
         if (!r.ok) throw Error("PDF export failed.");
         download(
           "aether-climate-report.pdf",
