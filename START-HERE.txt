@@ -1,0 +1,19 @@
+AETHER — complete application
+
+WINDOWS
+1. Install Python 3.11 or newer.
+2. Extract the entire ZIP into a new folder.
+3. Double-click start-windows.bat.
+4. The app opens at http://127.0.0.1:8010 (or the next free port).
+5. Explorer > choose location/years/hazard > Run analysis.
+
+Keep the terminal open while using the app.
+Node.js is not required: the compiled frontend is included.
+Internet is needed for first setup and uncached real weather.
+
+MAC / LINUX: run bash start.sh
+DOCKER + MONGODB: run docker compose up --build
+
+See README.md for source editing, API, tests and deployment.
+
+If an older Climate Signal page is open at port 8000, use the NEW URL printed by launch.py. The launcher never opens an unrelated server.
